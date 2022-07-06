@@ -1,7 +1,6 @@
 import torch
 import kserve
 from google.cloud import storage
-# from sklearn.externals import joblib
 from kserve import Model, Storage
 from tempfile import TemporaryFile
 from kserve.model import ModelMissingError, InferenceError
@@ -10,8 +9,6 @@ import logging
 import pyTigerGraph as tg
 from torch_geometric.nn import GCN
 import os 
-
-# DEFAULT_MODEL_DIR = "https://storage.cloud.google.com/tg_models/model.pth"
 
 logger = logging.getLogger(__name__)
 conn = tg.TigerGraphConnection("http://35.230.92.92", graphname="Cora")
@@ -36,7 +33,7 @@ class GCNNodeClassifier(Model):
             num_hops=hp["num_hops"],
             shuffle=False
         )
-        # should be loaded from gstorage, s3 etc
+        #load the model from gstorage
         try:
             self.model = self.load_model()
         except ModelMissingError:
@@ -87,5 +84,4 @@ if __name__ == "__main__":
     print(model_name)
     logging.info(f"Starting model '{model_name}'")
     model = GCNNodeClassifier(model_name)
-    #kserve.ModelServer(http_port=8080).start([model] if model.ready else [])
     kserve.ModelServer(http_port=8080).start([model])

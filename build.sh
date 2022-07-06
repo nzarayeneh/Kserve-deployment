@@ -24,7 +24,7 @@ echo ---- Building image ----
 docker build --rm -t kserve-base:${version} .
 
 echo ---- Pushing to docker hub ----
-# replace "skirpichenko" with "tigergraphml"
+# replace "nzarayeneh" with "tigergraphml"
 DOCKER_USER=nzarayeneh
 docker tag kserve-base:${version} ${DOCKER_USER}/kserve-base:${version}
 docker push ${DOCKER_USER}/kserve-base:${version}
